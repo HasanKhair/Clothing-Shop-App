@@ -1,0 +1,24 @@
+import Foundation
+
+class CartViewModel: ObservableObject {
+    @Published var cartItems: [Product] = []
+
+    func addToCart(_ product: Product) {
+        cartItems.append(product)
+    }
+
+    func removeFromCart(at offsets: IndexSet) {
+        cartItems.remove(atOffsets: offsets)
+    }
+
+    func totalPrice() -> Double {
+        cartItems.reduce(0) { $0 + $1.price }
+    }
+}
+//
+//  CartViewModel.swift
+//  ClothingShopApp
+//
+//  Created by user on 15/05/2025.
+//
+
