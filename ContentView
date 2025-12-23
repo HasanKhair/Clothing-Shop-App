@@ -1,0 +1,36 @@
+import SwiftUI
+
+struct ContentView: View {
+    @EnvironmentObject var auth: AuthViewModel
+    let products = [
+        Product(name: "Leather Jacket", price: 129.99, imageName: "jacket", description: "Premium quality leather jacket."),
+        Product(name: "Sneakers", price: 89.99, imageName: "sneakers", description: "Stylish sneakers for everyday wear."),
+        Product(name: "Denim Jeans", price: 59.99, imageName: "jeans", description: "Comfortable and trendy jeans."),
+    ]
+
+    var body: some View {
+        NavigationView {
+            List(products) { product in
+                NavigationLink(destination: ProductDetailView(product: product)) {
+                    ProductRow(product: product)
+                }
+            }
+            .navigationTitle("Clothing Store")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: CartView()) {
+                        Image(systemName: "cart")
+                    }
+
+                    Button(action: {
+                        auth.logout()
+                    }) {
+                        Image(systemName: "arrow.right.circle")
+                    }
+
+                }
+            }
+
+        }
+    }
+}
