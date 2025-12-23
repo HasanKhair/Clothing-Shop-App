@@ -1,0 +1,39 @@
+import Foundation
+import FirebaseAuth
+
+class AuthViewModel: ObservableObject {
+    @Published var isLoggedIn = false
+
+    init() {
+        self.isLoggedIn = Auth.auth().currentUser != nil
+    }
+
+    func login(email: String, password: String, completion: @escaping (String?) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(error.localizedDescription)
+                } else {
+                    self.isLoggedIn = true
+                    completion(nil)
+                }
+            }
+        }
+    }
+
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+            isLoggedIn = false
+        } catch {
+            print("Logout failed: \(error.localizedDescription)")
+        }
+    }
+}
+//
+//  AuthViewModel.swift
+//  ClothingShopApp
+//
+//  Created by user on 15/05/2025.
+//
+
