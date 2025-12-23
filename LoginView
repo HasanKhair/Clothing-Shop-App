@@ -1,0 +1,50 @@
+import SwiftUI
+
+struct LoginView: View {
+    @EnvironmentObject var auth: AuthViewModel
+    @State private var email = ""
+    @State private var password = ""
+    @State private var errorMessage: String?
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Login")
+                .font(.largeTitle)
+                .bold()
+
+            TextField("Email", text: $email)
+                .autocapitalization(.none)
+                .keyboardType(.emailAddress)
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
+
+            SecureField("Password", text: $password)
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
+
+            Button("Login") {
+                auth.login(email: email, password: password) { error in
+                    if let error = error {
+                        self.errorMessage = error
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+
+            if let error = errorMessage {
+                Text(error)
+                    .foregroundColor(.red)
+                    .font(.caption)
+            }
+
+            Spacer()
+        }
+        .padding()
+    }
+}
