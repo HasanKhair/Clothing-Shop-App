@@ -1,0 +1,16 @@
+import Foundation
+
+struct Product: Identifiable {
+    let id = UUID()
+    let name: String
+    let price: Double
+    let imageName: String
+    let description: String
+}
+//
+//  Product.swift
+//  ClothingShopApp
+//
+//  Created by user on 15/05/2025.
+//
+
